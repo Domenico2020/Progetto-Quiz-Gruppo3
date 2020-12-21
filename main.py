@@ -88,7 +88,9 @@ df['!Email'] = np.nan
 
 #Prendo in DataFrame degli Utenti elimino il primo record ovvero l'utente che estrae i dati
 #df1.drop([0], inplace=True)
-df1 = df1.drop([0,12])
+df1 = df1[df1.Nome != "Giulio Iannello"]
+df1 = df1[df1.Nome != "-"]
+#df1 = df1.drop([0,12])
 #[12] == 'nome cognome' = '-'
 #df1 = df1.drop([12])
 #Modifico gli indici
