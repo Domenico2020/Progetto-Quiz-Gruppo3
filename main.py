@@ -22,7 +22,10 @@ parser.add_argument("-i", "--input_data", help="Complete path to the file contai
                         type=str, default='./file_di_test/Test-risposte date.json')
 parser.add_argument("-i1", "--input_data1", help="Complete path to the file containing data (utenti)",
                         type=str, default='./file_di_test/tabellaID.json')
-
+parser.add_argument("-o", "--user_feature", help="Complete path to the file containing data output(.json)", 
+                    type=str, default='user_feature2.0.json')
+parser.add_argument("-o1", "--out_data1", help="Complete path il file input_data.json", 
+                    type=str, default='PythonExport2.0.xlsx')
 args = parser.parse_args()
 
 with open(args.params, 'r') as paramsFile:
@@ -108,14 +111,29 @@ sorted_df['Nome Cognome'] = df1['UC']
     #data[i].pop(2)
 #    data[i][2] = 'uc'
 
-# salva su file la lista dei log anonimizzata
-outstr = json.dumps(data, indent=params['input']['IndentJSON'])
-f2 = open(join(params['output']['OutDir'], params['output']['OutFile']), 'w')
-f2.write(outstr)
-f2.close()
+user_features=pd.DataFrame(sorted_df, columns= ['Cognome', 'Nome', '', 'INDB_MAT_2020',
+                               '!Email', 'Esito Prova', 'Data In', 'Data Out', 'Time', 
+                               'Voto', 'Domanda 1', 'Domanda 2',
+                               'Domanda 3', 'Domanda 4', 'Domanda 5',
+                               'Domanda 6', 'Domanda 7', 'Domanda 8',
+                               'Domanda 9', 'Nome Cognome'])
 
-# salva su file la tabella utente-ID man mano che generra gli ID
-outstr = json.dumps(d, indent=params['input']['IndentJSON'])
-f3 = open(join(params['input']['InDir'], params['input']['IdFile']), 'w')
-f3.write(outstr)
-f3.close()
+#salvo file Excel
+
+user_features.to_excel(args.out_data1)
+
+# salvo file .json
+
+user_features.to_json(args.user_feature, orient='columns')                                                        
+
+# # salva su file la lista dei log anonimizzata
+# outstr = json.dumps(data, indent=params['input']['IndentJSON'])
+# f2 = open(join(params['output']['OutDir'], params['output']['OutFile']), 'w')
+# f2.write(outstr)
+# f2.close()
+
+# # salva su file la tabella utente-ID man mano che generra gli ID
+# outstr = json.dumps(d, indent=params['input']['IndentJSON'])
+# f3 = open(join(params['input']['InDir'], params['input']['IdFile']), 'w')
+# f3.write(outstr)
+# f3.close()
